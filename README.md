@@ -14,18 +14,21 @@ This repo follows a modular structure and includes advanced chat features.
 
 ## Screenshots
 
-> Replace `screenshots/` paths with your actual screenshot files.
 
 Desktop view  
-![Desktop chat view](screenshots/desktop.png)
+![Desktop chat view](./screenshots/desktop.png)
 
-Mobile view  
-![Mobile chat view](screenshots/mobile.png)
+Join Chat 
+![Join Chat chat view](./screenshots/joinchat.png)
 
-Typing indicator example  
-![Typing indicator](screenshots/typing.png)
 
 ---
+## 🚀 Live Demo
+Frontend (Client): [https://ferditing-chatroom.netlify.app](https://ferditing-chatroom.netlify.app)
+
+Backend (Server): [https://socket-io-ferditing.onrender.com](https://socket-io-ferditing.onrender.com)
+
+
 
 ## Local setup
 
@@ -33,5 +36,8 @@ Typing indicator example
 ```bash
 cd server
 npm install
-# optionally copy .env.example -> .env (set PORT, CLIENT_URL)
 npm run start
+
+
+
+
