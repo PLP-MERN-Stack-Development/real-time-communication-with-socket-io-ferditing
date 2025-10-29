@@ -47,18 +47,15 @@ app.get('/', (req, res) => res.send('Socket.io Chat Server (modular)'));
 // start server and socket
 const server = http.createServer(app);
 
+// where you create Server (temporary quick test)
 const io = createSocketServer(server, {
   cors: {
-    origin: function (origin, callback) {
-      // Socket.IO may send no origin for non-browser clients
-      if (!origin) return callback(null, true);
-      if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
-      return callback(new Error(`Socket CORS: origin ${origin} not allowed`), false);
-    },
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
+    origin: true,     // allow any origin (temporary)
+    methods: ['GET','POST'],
+    credentials: true
+  }
 });
+
 
 const PORT = config.PORT || process.env.PORT || 5000;
 server.listen(PORT, () => {
