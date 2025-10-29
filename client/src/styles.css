@@ -1,0 +1,330 @@
+/* client/src/styles.css
+   Final, polished styles for a modern mobile-first chat app (WhatsApp-like).
+   Paste this entire file over your existing styles.css.
+*/
+
+/* -------------------------
+   Design tokens / reset
+   ------------------------- */
+:root{
+  --bg-0: #071226;
+  --bg-1: #0b1220;
+  --panel: #0f1728;
+  --muted: #94a3b8;
+  --accent-1: #6ee7b7;
+  --accent-2: #60a5fa;
+  --text: #e6eef6;
+  --soft: rgba(255,255,255,0.03);
+  --glass: rgba(255,255,255,0.02);
+  --radius: 12px;
+  --shadow-lg: 0 10px 40px rgba(2,6,23,0.5);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; width: 100%; margin: 0; padding: 0; }
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--bg-0) 0%, #071427 100%);
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+/* -------------------------
+   App container (full-viewport)
+   ------------------------- */
+.app {
+  width: 100%;
+  height: 100vh;               /* occupy full viewport */
+  display: flex;
+  flex-direction: column;      /* header -> main */
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+}
+
+/* small safeguard if any other rules are leaking in */
+.app {
+  max-width: 100%;
+}
+
+/* -------------------------
+   Header
+   ------------------------- */
+.app-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.005), transparent);
+  z-index: 20;
+}
+.header-left h1 { margin: 0; font-size: 18px; letter-spacing: 0.2px; }
+.header-left .sub { display:block; margin-top:2px; font-size:12px; color:var(--muted); }
+
+/* -------------------------
+   Main area (fills remaining space)
+   ------------------------- */
+.app-main {
+  flex: 1;                     /* critical: lets main expand */
+  display:flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 18px;
+  gap: 18px;
+}
+
+/* center small cards like login */
+.center-card {
+  width: 100%;
+  max-width: 1100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* -------------------------
+   Chat layout (desktop/tablet)
+   ------------------------- */
+.chat-layout {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 320px 1fr; /* sidebar + main */
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--radius);
+  padding: 14px;
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Profile */
+.profile { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:48px; height:48px; border-radius:50%;
+  background: linear-gradient(135deg,var(--accent-1),var(--accent-2));
+  display:flex; align-items:center; justify-content:center; font-weight:700; color:#022;
+  flex-shrink:0;
+}
+.profile .meta .name { font-weight:700; }
+.profile .meta .status { font-size:12px; color:var(--muted); }
+
+/* Users list */
+.users-list {
+  overflow:auto;
+  max-height: calc(100% - 120px);
+  padding: 8px;
+  border-radius: 10px;
+  background: transparent;
+}
+.users-list h3 { margin:0 0 8px 0; font-size:13px; color:var(--muted); }
+.users-list ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+.user-item {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:8px; border-radius:8px; transition: background .12s ease;
+}
+.user-item:hover { background: rgba(255,255,255,0.02); }
+.u-left { display:flex; align-items:center; gap:10px; }
+.u-name { font-weight:600; }
+.u-sub { font-size:12px; color:var(--muted); }
+
+/* -------------------------
+   Chat area: messages card + input
+   ------------------------- */
+.chat-area { display:flex; flex-direction:column; gap:12px; height: 100%; }
+
+.messages-card {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  overflow: hidden;
+}
+
+/* message list */
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding-right: 6px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* message bubble */
+.message {
+  max-width: 72%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: var(--text);
+  display:inline-block;
+  word-wrap:break-word;
+  line-height:1.3;
+}
+.message.incoming { margin-right: auto; border-bottom-left-radius: 6px; }
+.message.outgoing { margin-left: auto; border-bottom-right-radius: 6px; background: linear-gradient(180deg, rgba(96,165,250,0.16), rgba(96,165,250,0.08)); color:#f3f9ff; }
+
+/* meta row inside message */
+.message-meta { display:flex; gap:8px; align-items:center; margin-bottom:6px; font-size:12px; color:var(--muted); }
+.sender { font-weight:700; color:var(--text); font-size:13px; }
+.timestamp { color:var(--muted); font-size:11px; }
+.private-tag { font-size:11px; padding:3px 8px; border-radius:999px; background: rgba(255,255,255,0.02); color:var(--muted); margin-left:6px; }
+
+/* system messages */
+.message.system { font-style:italic; color:var(--muted); background:transparent; padding: 6px 8px; border-radius: 8px; }
+
+/* typing indicator */
+.typing-indicator { font-size:13px; color:var(--muted); min-height:20px; padding: 4px 0; }
+
+/* -------------------------
+   Input area (desktop) - form aligns properly
+   ------------------------- */
+.input-area {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, rgba(255,255,255,0.005), transparent);
+}
+.input-area form { display:flex; align-items:center; gap:8px; width:100%; }
+.input-area input {
+  flex:1;
+  padding:12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.012);
+  color:var(--text);
+  outline:none;
+  min-height:44px;
+}
+.input-area button {
+  background: linear-gradient(180deg,var(--accent-1),var(--accent-2));
+  border:none;
+  padding:10px 16px;
+  border-radius: 12px;
+  color:#022;
+  font-weight:700;
+  cursor:pointer;
+  min-height:44px;
+}
+
+/* small UI elements */
+.btn-small { font-size:12px; padding:6px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--text); }
+
+/* -------------------------
+   Scrollbar & misc niceties
+   ------------------------- */
+::-webkit-scrollbar { width:8px; height:8px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.03); border-radius:20px; }
+.message-list > .message:first-child { margin-top: 6px; }
+
+/* -------------------------
+   Responsive: Mobile / WhatsApp-like
+   ------------------------- */
+@media (max-width: 900px) {
+  /* layout -> single column & full width */
+  .app-main { padding: 8px; }
+  .chat-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 100%;
+    height: 100%;
+  }
+
+  /* Sidebar becomes a top users strip */
+  .sidebar {
+    order: 1;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 0;
+    background: transparent;
+    display: block;
+    border: none;
+  }
+
+  .users-list {
+    display: block;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 6px 4px;
+    white-space: nowrap;
+  }
+  .users-list ul { display:flex; flex-direction:row; gap:10px; padding: 6px 4px; margin:0; }
+  .user-item {
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-width: 72px;
+    padding: 6px;
+    border-radius: 10px;
+    background: transparent;
+  }
+  .user-item .avatar { width:42px; height:42px; font-size:13px; }
+  .u-name { font-size:12px; text-align:center; }
+  .u-sub { display:none; }
+
+  /* messages card becomes full height area and scrolls */
+  .messages-card {
+    order: 2;
+    margin: 0;
+    border-radius: 0;
+    padding: 10px;
+    height: calc(100vh - 140px); /* header + users strip + input ~ adjust if needed */
+    display:flex;
+    flex-direction:column;
+  }
+
+  .message-list { flex: 1; padding-right: 4px; gap: 8px; overflow-y: auto; }
+
+  /* Bubbles grow wider and have comfortable touch targets */
+  .message { max-width: 86%; padding: 10px 12px; border-radius: 16px; font-size:15px; }
+  .message.outgoing { margin-left: auto; }
+  .message.incoming { margin-right: auto; }
+
+  /* Input bar sticky at bottom */
+  .input-area {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(7,18,38,0.95), rgba(7,18,38,0.9));
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    z-index: 40;
+  }
+  .input-area input { border-radius: 999px; padding: 10px 14px; min-height:44px; }
+  .input-area button { border-radius: 999px; min-height:44px; padding: 0 16px; }
+
+  /* header compact */
+  .app-header { padding: 10px 12px; position: sticky; top: 0; z-index: 50; }
+  .header-left .sub { display:none; }
+  .center-card .login-card { width: 100%; max-width: 420px; margin: 8px; box-shadow: 0 8px 30px rgba(2,6,23,0.5); }
+}
+
+/* -------------------------
+   Final small tweaks to avoid layout leaking
+   ------------------------- */
+@supports (display: grid) {
+  .chat-layout { align-items: stretch; }
+}
